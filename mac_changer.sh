@@ -1,7 +1,20 @@
 #!/bin/bash
 
+
+RED="\033[0;31m"
+GREEN="\033[0;32m"
+YELLOW="\033[1;33m"
+NC="\033[0m" 
+
+LOGFILE="/tmp/mac_changer.log"
+
+function log() {
+    echo -e "$1"
+    echo -e "$(date '+%Y-%m-%d %H:%M:%S') $1" >> "$LOGFILE"
+}
+
 function usage() {
-    echo "Usage: $0 -i <interface> [-m <mac> | -r | --reset]"
+    echo -e "${YELLOW}Usage: $0 -i <interface> [-m <mac> | -r | --reset]${NC}"
     echo "  -i  Network interface (e.g., eth0, wlan0)"
     echo "  -m  Specific MAC address (e.g., 00:11:22:33:44:55)"
     echo "  -r  Generate random MAC address"
@@ -22,8 +35,10 @@ function random_mac() {
 }
 
 function backup_mac() {
-    ifconfig "$1" | grep ether | awk '{print $2}' > "/tmp/${1}_mac_backup"
-    echo "[+] Backed up original MAC to /tmp/${1}_mac_backup"
+    local iface="$1"
+    local mac=$(ifconfig "$iface" | grep ether | awk '{print $2}')
+    echo "$mac" > "/tmp/${iface}_mac_backup"
+    log "${GREEN}[+] Backed up original MAC to /tmp/${iface}_mac_backup: $mac${NC}"
 }
 
 function load_backup_mac() {
@@ -37,7 +52,7 @@ function load_backup_mac() {
 function change_mac() {
     local iface="$1"
     local new_mac="$2"
-    echo "[+] Changing MAC Address for $iface to $new_mac"
+    log "${YELLOW}[+] Changing MAC Address for $iface to $new_mac${NC}"
     sudo ifconfig "$iface" down
     sudo ifconfig "$iface" hw ether "$new_mac"
     sudo ifconfig "$iface" up
@@ -75,7 +90,7 @@ fi
 
 
 if [ "$RANDOM_FLAG" -eq 1 ] && [ -n "$MAC" ]; then
-    echo "[-] ERROR: Cannot use --random and --mac together."
+    log "${RED}[-] ERROR: Cannot use --random and --mac together.${NC}"
     exit 1
 fi
 
@@ -83,24 +98,24 @@ if [ "$RESET_FLAG" -eq 1 ]; then
     OLD_MAC=$(load_backup_mac "$INTERFACE")
     if [ -n "$OLD_MAC" ]; then
         change_mac "$INTERFACE" "$OLD_MAC"
-        echo "[+] MAC reset to original: $OLD_MAC"
+        log "${GREEN}[+] MAC reset to original: $OLD_MAC${NC}"
     else
-        echo "[-] No backup found to reset for $INTERFACE."
+        log "${RED}[-] No backup found to reset for $INTERFACE.${NC}"
     fi
     exit 0
 fi
 
 if [ "$RANDOM_FLAG" -eq 1 ]; then
     MAC=$(random_mac)
-    echo "[+] Generated random MAC: $MAC"
+    log "${GREEN}[+] Generated random MAC: $MAC${NC}"
 fi
 
 if ! is_valid_mac "$MAC"; then
-    echo "[-] ERROR: Invalid MAC format. Use format like 00:11:22:33:44:55"
+    log "${RED}[-] ERROR: Invalid MAC format. Use format like 00:11:22:33:44:55${NC}"
     exit 1
 fi
 
 backup_mac "$INTERFACE"
 change_mac "$INTERFACE" "$MAC"
-echo "[+] MAC address successfully changed!"
+log "${GREEN}[+] MAC address successfully changed!${NC}"
 
