@@ -7,6 +7,8 @@
 A simple Python-based MAC (Media Access Control) address changer tool. This utility helps you change your MAC address to a custom value, generate a random MAC, or reset it to the original hardware MAC address.
 
 # 🧩 Project Structure
+
+```
 mac-changer-tool/
 │
 ├── modules/
@@ -19,7 +21,7 @@ mac-changer-tool/
 │
 ├── main.py
 ├── README.md
-
+```
 ---
 
 # 📥 Installation
