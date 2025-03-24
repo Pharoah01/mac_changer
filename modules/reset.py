@@ -1,11 +1,16 @@
 import re
 import subprocess
-import json
-import os
 
+def backup_original_mac(interface, mac):
+    with open(f".mac_backup_{interface}", "w") as f:
+        f.write(mac)
 
-BACKUP_FILE = "mac_backup.json"
-
+def load_original_mac(interface):
+    try:
+        with open(f".mac_backup_{interface}", "r") as f:
+            return f.read().strip()
+    except FileNotFoundError:
+        return None
 
 def get_current_mac(interface):
     try:
@@ -18,33 +23,7 @@ def get_current_mac(interface):
     return None
 
 
-def backup_original_mac(interface):
-    original_mac = get_current_mac(interface)
-    if original_mac:
-        data = {interface: original_mac}
-        with open(BACKUP_FILE, "w") as f:
-            json.dump(data, f)
-        print(f"[+] Original MAC address backed up: {original_mac}")
-    else:
-        print("[-] Could not backup original MAC.")
-
-
-def load_original_mac(interface):
-    if os.path.exists(BACKUP_FILE):
-        with open(BACKUP_FILE, "r") as f:
-            data = json.load(f)
-        return data.get(interface)
-    else:
-        print("[-] Backup file not found.")
-    return None
-
-
-def reset_mac(interface):
-    original_mac = load_original_mac(interface)
-    if not original_mac:
-        print("[-] No backup found for this interface.")
-        return
-
+def reset_mac(interface, original_mac):
     print(f"[+] Resetting MAC address for {interface} to original: {original_mac}")
     try:
         subprocess.check_call(["ifconfig", interface, "down"])
@@ -53,3 +32,4 @@ def reset_mac(interface):
         print("[+] MAC address reset successfully!")
     except subprocess.CalledProcessError as e:
         print(f"[-] ERROR: Failed to reset MAC address. {e}")
+
