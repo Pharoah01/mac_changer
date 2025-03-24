@@ -88,9 +88,8 @@ sudo python3 main.py -i eth0 --reset
 - `sudo` privileges to run commands
 
 ---
-# 👨‍💻 Author
 
-[Pharoah01] | [pharoah.in.net] | [www.linkedin.com/in/elavarasan-t-a5971b2a5]
-
+## 👨‍💻 Author:
+[Pharoah01](https://pharoah.in.net/) | [LinkedIn](https://www.linkedin.com/in/elavarasan-t-a5971b2a5/)
 
 ---
