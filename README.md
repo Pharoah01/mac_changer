@@ -6,7 +6,7 @@
 
 A simple Python-based MAC (Media Access Control) address changer tool. This utility helps you change your MAC address to a custom value, generate a random MAC, or reset it to the original hardware MAC address.
 
-## 🧩 Project Structure
+# 🧩 Project Structure
 mac-changer-tool/
 │
 ├── modules/
@@ -22,7 +22,7 @@ mac-changer-tool/
 
 ---
 
-## 📥 Installation
+# 📥 Installation
 
 ```bash
 git clone https://github.com/your-username/mac-changer-tool.git
@@ -52,18 +52,18 @@ optional arguments:
 ```
 ---
 
-## ⚙️ Usage
-# 🔵 Change MAC address manually
+# ⚙️ Usage
+## 🔵 Change MAC address manually
 ```bash
 sudo python3 main.py -i eth0 -m 00:11:22:33:44:55
 ```
 
-# 🟣 Generate and apply a random MAC address
+## 🟣 Generate and apply a random MAC address
 ```bash
 sudo python3 main.py -i eth0 --random
 ```
 
-# 🟢 Reset to the original MAC address
+## 🟢 Reset to the original MAC address
 ```bash
 sudo python3 main.py -i eth0 --reset
 ```
@@ -71,7 +71,7 @@ sudo python3 main.py -i eth0 --reset
 
 ---
 
-## 🚀 Features
+# 🚀 Features
 - ✅ Change MAC address to a user-specified address  
 - ✅ Generate and assign a random MAC address  
 - ✅ Reset MAC to its original hardware address  
@@ -81,7 +81,7 @@ sudo python3 main.py -i eth0 --reset
 
 ---
 
-## 🐍 Requirements
+# 🐍 Requirements
 - Python 3.x
 - Linux-based system (for `ifconfig` and `ip` command usage)
 - `net-tools` package (for `ifconfig`)
