@@ -32,7 +32,26 @@ cd mac-changer-tool
 sudo apt update
 sudo apt install net-tools -y
 ```
+---
+# Using Bash Script
 
+## Make the script executable:
+```bash
+sudo chmod +x mac_changer.sh
+```
+## Change MAC to a specific address
+```bash
+sudo ./mac_changer.sh -i wlan0 -m 00:11:22:33:44:55
+```
+
+## Change MAC to a random address
+```bash
+sudo ./mac_changer.sh -i wlan0 -r
+```
+## Reset MAC to the original address
+```bash
+sudo ./mac_changer.sh -i wlan0 --reset
+```
 ---
 # 🎯 Argument Parser Help
 ```bash
