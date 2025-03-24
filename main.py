@@ -21,13 +21,8 @@ def main():
         print("[-] ERROR: Cannot use both --random and --mac options together.")
         return
 
-    original_mac = reset.get_current_mac(args.interface)
-
     if args.reset:
-        if original_mac:
-            reset.reset_mac(args.interface, original_mac)
-        else:
-            print(f"[-] Could not find original MAC to reset to.")
+        reset.reset_mac(args.interface)
         return
 
     if args.random:
@@ -40,8 +35,8 @@ def main():
         print("[-] ERROR: Invalid MAC address format. Use format like 00:11:22:33:44:55")
         return
 
+    reset.backup_original_mac(args.interface)
     changer.mac_changer(mac, args.interface)
-
     print("[+] MAC address successfully changed!")
 
 if __name__ == "__main__":
