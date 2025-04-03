@@ -27,7 +27,7 @@ mac-changer-tool/
 # 📥 Installation
 
 ```bash
-git clone https://github.com/your-username/mac-changer-tool.git
+git clone https://github.com/Pharoah01/mac_changer.git
 cd mac-changer-tool
 ```
 ```bash
